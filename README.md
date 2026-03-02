@@ -27,6 +27,13 @@ Ejecutar con tamaño personalizado (por ejemplo **15 filas y 20 columnas**):
 .\laberinto.exe 15 20
 ```
 
+Si clonaste el repo y no tenes `laberinto.exe`:
+```powershell
+g++ -std=c++17 -O2 -Wall -Wextra -pedantic -static -static-libstdc++ -static-libgcc .\laberinto.cpp -o .\laberinto.exe
+.\laberinto.exe
+.\laberinto.exe 15 20
+```
+
 ## Tiempos y observaciones
 - El programa imprime tiempo de generacion y resolucion en microsegundos al final.
 - En pruebas, la resolucion suele ser muy rapida para tamaños chicos y medianos.
