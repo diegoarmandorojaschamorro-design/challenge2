@@ -258,7 +258,7 @@ int main(int argc, char **argv) {
     bool resuelto = resolverBacktracking(lab, 0, 0, visitado, camino);
     auto finSol = std::chrono::steady_clock::now();
 
-    // Convierte tiempos a microsegundos (double para evitar truncado a 0).
+    // Convierte tiempos a microsegundos
     double tiempoGenUs = std::chrono::duration<double, std::micro>(finGen - inicioGen).count();
     double tiempoSolUs = std::chrono::duration<double, std::micro>(finSol - inicioSol).count();
     long long tiempoGen = static_cast<long long>(tiempoGenUs);
