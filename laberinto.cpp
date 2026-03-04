@@ -86,9 +86,9 @@ void tallarLaberintoDFS(Laberinto &lab, int f, int c, std::mt19937 &generador) {
         int nf = f + d.first;
         int nc = c + d.second;
         // Solo abre si:
-        // 1) esta dentro de limites
-        // 2) sigue siendo muro
-        // 3) no crea demasiada conexion local
+        // 1 esta dentro de limites
+        // 2 sigue siendo muro
+        // 3 no crea demasiada conexion local
         if (dentroLimites(nf, nc, lab.filas, lab.columnas) &&
             lab.grilla[nf][nc] == '#' &&
             contarVecinosAbiertos(lab, nf, nc) <= 1) {
@@ -244,23 +244,25 @@ int main(int argc, char **argv) {
     Laberinto lab(filas, columnas);
 
     // Cronometra generacion.
-    auto inicioGen = std::chrono::high_resolution_clock::now();
+    auto inicioGen = std::chrono::steady_clock::now();
     tallarLaberintoDFS(lab, 0, 0, generador);
     tallarCaminoGarantizado(lab, generador);
-    auto finGen = std::chrono::high_resolution_clock::now();
+    auto finGen = std::chrono::steady_clock::now();
 
     // Estructuras para resolver.
     vector<vector<bool>> visitado(filas, vector<bool>(columnas, false));
     vector<pair<int, int>> camino;
 
     // Cronometra resolucion.
-    auto inicioSol = std::chrono::high_resolution_clock::now();
+    auto inicioSol = std::chrono::steady_clock::now();
     bool resuelto = resolverBacktracking(lab, 0, 0, visitado, camino);
-    auto finSol = std::chrono::high_resolution_clock::now();
+    auto finSol = std::chrono::steady_clock::now();
 
-    // Convierte tiempos a microsegundos.
-    auto tiempoGen = std::chrono::duration_cast<std::chrono::microseconds>(finGen - inicioGen).count();
-    auto tiempoSol = std::chrono::duration_cast<std::chrono::microseconds>(finSol - inicioSol).count();
+    // Convierte tiempos a microsegundos (double para evitar truncado a 0).
+    double tiempoGenUs = std::chrono::duration<double, std::micro>(finGen - inicioGen).count();
+    double tiempoSolUs = std::chrono::duration<double, std::micro>(finSol - inicioSol).count();
+    long long tiempoGen = static_cast<long long>(tiempoGenUs);
+    long long tiempoSol = static_cast<long long>(tiempoSolUs);
 
     // Muestra laberinto y leyenda.
     cout << "Laberinto generado (" << filas << "x" << columnas << "):\n";
